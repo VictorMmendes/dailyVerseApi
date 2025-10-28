@@ -1,38 +1,54 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    class <%= @resource_class %>Form
-      include ActiveModel::Model
-      include ActiveModel::Attributes
+    module Forms
+        class <%= @resource_class %>Form
+        # Shorthands definition
+        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>
 
-<% attributes_kv.each do |name, type| -%>
-      attribute :<%= name %>, :<%= type %>
-<% end -%>
+          include ActiveModel::Model
+          include ActiveModel::Attributes
 
-      attr_reader :record
+    <% attributes_kv.each do |name, type| -%>
+          attribute :<%= name %>, :<%= type %>
+    <% end -%>
 
-      # Add validations here
-      # validates :name, presence: true
+          attr_reader :record
 
-      def save
-        return false unless valid?
-        @record = <%= @resource_class %>.new(attributes_for_model)
-        if @record.save
-          true
-        else
-          @record.errors.each { |error| errors.add(error.attribute, error.message) }
-          false
+          # Add validations here
+          # validates :name, presence: true
+
+          def save
+            return false unless valid?
+            @record = <%= @resource_class %>.new(attributes_for_model)
+            if @record.save
+              true
+            else
+              @record.errors.each { |error| errors.add(error.attribute, error.message) }
+              false
+            end
+          end
+
+            def update(record)
+              return false unless valid?
+              if record.update(attributes_for_model)
+                @record = record
+                true
+              else
+                record.errors.each { |error| errors.add(error.attribute, error.message) }
+                false
+              end
+            end
+
+          private
+
+          def attributes_for_model
+            {
+    <% attributes_kv.each_with_index do |(name, _type), idx| -%>
+              <%= name %>: <%= name %><%= idx < attributes_kv.size - 1 ? "," : "" %>
+    <% end -%>
+            }
+          end
         end
-      end
-
-      private
-
-      def attributes_for_model
-        {
-<% attributes_kv.each_with_index do |(name, _type), idx| -%>
-          <%= name %>: <%= name %><%= idx < attributes_kv.size - 1 ? "," : "" %>
-<% end -%>
-        }
-      end
     end
   end
 end

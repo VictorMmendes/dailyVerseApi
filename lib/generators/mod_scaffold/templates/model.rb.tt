@@ -1,13 +1,15 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    class <%= @resource_class %> < ApplicationRecord
-      self.table_name = '<%= file_name.pluralize %>'
-<% attributes_kv.each do |name, _type| -%>
-      # attribute :<%= name %>
-<% end -%>
+    module Models
+        class <%= @resource_class %> < ApplicationRecord
+          self.table_name = '<%= file_name.pluralize %>'
+    <% attributes_kv.each do |name, _type| -%>
+          # attribute :<%= name %>
+    <% end -%>
 
-      # Add your domain invariants here
-      # validates :name, presence: true
+          # Add your domain invariants here
+          # validates :name, presence: true
+        end
     end
   end
 end

@@ -1,7 +1,9 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    class <%= @resource_class %> < ::ApplicationRecord
-      def self.table_name: -> String
+    module Models
+        class <%= @resource_class %> < ::ApplicationRecord
+          def self.table_name: -> String
+        end
     end
   end
 end

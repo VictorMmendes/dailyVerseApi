@@ -1,4 +1,4 @@
-# Evaluated inside /api/v1 scope by config/routes.rb
-scope path: "<%= @context %>", module: "<%= @context %>/<%= @slice %>" do
+# module: "<%= @context %>/<%= @slice %>" -> module: "<%= @context %>/<%= @slice %>/controllers"
+scope path: "<%= @context %>", module: "<%= @context %>/<%= @slice %>/controllers" do
   resources :<%= file_name.pluralize %>, only: [<%= actions.map { |a| ":#{a}" }.join(', ') %>]
 end
