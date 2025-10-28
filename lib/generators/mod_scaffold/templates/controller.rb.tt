@@ -3,8 +3,8 @@ module <%= @class_context %>
     module Controllers
         class <%= file_name.pluralize.camelize %>Controller < ApplicationController
         # Shorthands definition
-        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>
-        <%= @resource_class %>Form = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>Form
+        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::Models::<%= @resource_class %>
+        <%= @resource_class %>Form = <%= @class_context %>::<%= @class_slice %>::Forms::<%= @resource_class %>Form
 
     <% if actions.include?('index') -%>
           def index

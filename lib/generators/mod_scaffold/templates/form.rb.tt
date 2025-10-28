@@ -3,7 +3,7 @@ module <%= @class_context %>
     module Forms
         class <%= @resource_class %>Form
         # Shorthands definition
-        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>
+        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::Models::<%= @resource_class %>
 
           include ActiveModel::Model
           include ActiveModel::Attributes
