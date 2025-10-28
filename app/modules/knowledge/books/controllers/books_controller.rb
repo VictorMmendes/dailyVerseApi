@@ -2,29 +2,36 @@ module Knowledge
   module Books
     module Controllers
       class BooksController < ApplicationController
+        # shorthands
+        Book = Knowledge::Books::Models::Book
+        BookForm = Knowledge::Books::Forms::BookForm
+        BookCreatorService = Knowledge::Books::Services::BookCreatorService
 
         def index
-          @books = Knowledge::Books::Models::Book.all
+          @books = Book.all
           render json: @books
         end
 
         def show
-          @book = Knowledge::Books::Models::Book.find(params[:id])
+          @book = Book.find(params[:id])
           render json: @book
         end
 
         def create
-          form = Knowledge::Books::Forms::BookForm.new(book_params)
-          if form.save
-            render json: form.book, status: :created
-          else
-            render json: { errors: form.errors }, status: :unprocessable_entity
+          # O controller não sabe sobre Slack. Ele apenas chama o serviço.
+          creator = BookCreatorService.new(book_params)
+          result = creator.call
+
+          if result.is_a?(Book)
+            render json: result, status: :created
+          else # Se o resultado for o form, ele tem os erros
+            render json: { errors: result.errors }, status: :unprocessable_entity
           end
         end
 
         def update
-          @book = Knowledge::Books::Models::Book.find(params[:id])
-          form = Knowledge::Books::Forms::BookForm.new(book_params)
+          @book = Book.find(params[:id])
+          form = BookForm.new(book_params)
 
           if form.update(@book)
             render json: form.book
@@ -34,7 +41,7 @@ module Knowledge
         end
 
         def destroy
-          @book = Knowledge::Books::Models::Book.find(params[:id])
+          @book = Book.find(params[:id])
           @book.destroy
           head :no_content
         end

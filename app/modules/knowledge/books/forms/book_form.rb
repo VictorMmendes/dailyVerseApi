@@ -2,6 +2,9 @@ module Knowledge
   module Books
     module Forms
       class BookForm
+        # shorthands
+        Book = Knowledge::Books::Models::Book
+
         include ActiveModel::Model
         include ActiveModel::Attributes
 
@@ -27,7 +30,7 @@ module Knowledge
 
         def save
           return false unless valid?
-          @book = Knowledge::Books::Models::Book.new(title: title, author: author, publication_date: publication_date)
+          @book = Book.new(title: title, author: author, publication_date: publication_date)
           if @book.save
             true
           else
