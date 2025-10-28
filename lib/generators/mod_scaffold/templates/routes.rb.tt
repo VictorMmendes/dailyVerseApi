@@ -1,0 +1,4 @@
+# Evaluated inside /api/v1 scope by config/routes.rb
+scope path: "<%= @context %>", module: "<%= @context %>/<%= @slice %>" do
+  resources :<%= file_name.pluralize %>, only: [<%= actions.map { |a| ":#{a}" }.join(', ') %>]
+end

@@ -1,0 +1,38 @@
+module <%= @class_context %>
+  module <%= @class_slice %>
+    class <%= @resource_class %>Form
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+
+<% attributes_kv.each do |name, type| -%>
+      attribute :<%= name %>, :<%= type %>
+<% end -%>
+
+      attr_reader :record
+
+      # Add validations here
+      # validates :name, presence: true
+
+      def save
+        return false unless valid?
+        @record = <%= @resource_class %>.new(attributes_for_model)
+        if @record.save
+          true
+        else
+          @record.errors.each { |error| errors.add(error.attribute, error.message) }
+          false
+        end
+      end
+
+      private
+
+      def attributes_for_model
+        {
+<% attributes_kv.each_with_index do |(name, _type), idx| -%>
+          <%= name %>: <%= name %><%= idx < attributes_kv.size - 1 ? "," : "" %>
+<% end -%>
+        }
+      end
+    end
+  end
+end

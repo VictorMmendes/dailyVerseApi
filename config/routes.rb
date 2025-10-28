@@ -5,13 +5,12 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-  namespace :api do
-    namespace :v1 do
-      namespace :knowledge do
-        instance_eval(File.read(Rails.root.join("app/modules/knowledge/books/config/routes.rb")))
-      end
+  # Use 'scope path:' para adicionar APENAS o prefixo na URL
+  # sem afetar o nome do módulo (controller)
+  scope path: 'api/v1' do
+    # Load all modular route files from app/modules/**/config/routes.rb
+    Dir[Rails.root.join('app/modules/**/config/routes.rb')].sort.each do |route_file|
+      instance_eval(File.read(route_file), route_file)
     end
   end
 end

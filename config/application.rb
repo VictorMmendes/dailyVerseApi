@@ -10,15 +10,30 @@ module DailyVerseApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
+    config.api_only = true
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    # Add custom directories to auto-load paths
-    config.autoload_paths += %W(#{config.root}/app/modules)
-    config.autoload_paths += Dir[Rails.root.join('app', 'modules', '*', '{controllers,models,forms,services}')]
+    # Add custom directories to auto-load/eager-load paths for modular monolith (DDD / Vertical Slice)
+    # We use Zeitwerk collapse (see initializer) to ignore layer directories like controllers/models/forms.
+    modules_root = Rails.root.join('app', 'modules').to_s
+    config.autoload_paths << modules_root
+    config.eager_load_paths << modules_root
+
+    # Generators configuration: API-only, no assets/helpers; use custom scaffold
+    config.generators do |g|
+      g.orm :active_record
+      g.helper false
+      g.assets false
+      g.stylesheets false
+      g.javascripts false
+      g.test_framework :test_unit, fixture: false
+      # register our custom generator namespace
+      g.templates.unshift Rails.root.join('lib', 'generators', 'mod_scaffold', 'templates').to_s
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #

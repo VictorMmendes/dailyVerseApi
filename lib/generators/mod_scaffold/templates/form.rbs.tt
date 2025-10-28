@@ -1,0 +1,7 @@
+module <%= @class_context %>
+  module <%= @class_slice %>
+    class <%= @resource_class %>Form
+      def save: -> bool
+    end
+  end
+end
