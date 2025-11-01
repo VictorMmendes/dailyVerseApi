@@ -1,0 +1,9 @@
+module Knowledge
+  module Books
+    module Models
+      class Book < ::ApplicationRecord
+        def self.table_name: -> String
+      end
+    end
+  end
+end

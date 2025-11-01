@@ -1,0 +1,23 @@
+module Scriptures
+  module Verses
+    module Controllers
+      class VersesController
+        # Shorthands for class singletons
+        Verse: Class[Models::Verse]
+        VerseForm: Class[Forms::VerseForm]
+
+
+
+        def index: -> void
+        def show: -> void
+        def create: -> void
+        def update: -> void
+        def destroy: -> void
+
+        private
+
+        def permitted_params: -> untyped
+      end
+    end
+  end
+end

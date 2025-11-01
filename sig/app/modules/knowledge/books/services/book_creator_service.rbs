@@ -1,0 +1,13 @@
+module Knowledge
+  module Books
+    module Services
+      class BookCreatorService
+        BookForm: Class[Knowledge::Books::Forms::BookForm]
+
+        @params: untyped
+
+        def call: -> (Knowledge::Books::Models::Book | Knowledge::Books::Forms::BookForm)
+      end
+    end
+  end
+end

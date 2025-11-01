@@ -1,0 +1,25 @@
+module Knowledge
+  module Books
+    module Controllers
+      class BooksController
+        # Shorthands for class singletons
+        Book: Class[Models::Book]
+        BookForm: Class[Forms::BookForm]
+        BookCreatorService: Class[Knowledge::Books::Services::BookCreatorService]
+
+        @books: Array[Models::Book]
+        @book: Models::Book
+
+        def index: -> void
+        def show: -> void
+        def create: -> void
+        def update: -> void
+        def destroy: -> void
+
+        private
+
+        def book_params: -> untyped
+      end
+    end
+  end
+end

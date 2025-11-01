@@ -1,0 +1,19 @@
+module Scriptures
+  module Verses
+    module Forms
+        class VerseForm
+          Verse: Class[Models::Verse]
+
+          attr_reader record: untyped
+
+          def save: -> bool
+
+          def update: -> void
+
+          private
+
+          def attributes_for_model: -> Hash[Symbol, String | Date]
+        end
+    end
+  end
+end
