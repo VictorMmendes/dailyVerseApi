@@ -4,9 +4,11 @@ module Scriptures
       class VersesController
         # Shorthands for class singletons
         Verse: Class[Models::Verse]
+        VerseCreatorService: Class[Services::VerseCreatorService]
         VerseForm: Class[Forms::VerseForm]
 
-
+        @verses: Array[Models::Verse]
+        @verse: Models::Verse
 
         def index: -> void
         def show: -> void
@@ -17,6 +19,8 @@ module Scriptures
         private
 
         def permitted_params: -> untyped
+
+        def verse_params: -> untyped
       end
     end
   end

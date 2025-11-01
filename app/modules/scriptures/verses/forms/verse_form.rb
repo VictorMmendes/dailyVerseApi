@@ -8,30 +8,35 @@ module Scriptures
           include ActiveModel::Model
           include ActiveModel::Attributes
 
+          attribute :content, :string
+          attribute :reference, :string
 
-          attr_reader :record
+          validates :content, presence: true
+          validates :reference, presence: true
+
+          attr_reader :verse
 
           # Add validations here
           # validates :name, presence: true
 
           def save
             return false unless valid?
-            @record = Verse.new(attributes_for_model)
-            if @record.save
+            @verse = Verse.new(attributes_for_model)
+            if @verse.save
               true
             else
-              @record.errors.each { |error| errors.add(error.attribute, error.message) }
+              @verse.errors.each { |error| errors.add(error.attribute, error.message) }
               false
             end
           end
 
-            def update(record)
+            def update(verse)
               return false unless valid?
-              if record.update(attributes_for_model)
-                @record = record
+              if verse.update(attributes_for_model)
+                @verse = verse
                 true
               else
-                record.errors.each { |error| errors.add(error.attribute, error.message) }
+                verse.errors.each { |error| errors.add(error.attribute, error.message) }
                 false
               end
             end
@@ -41,7 +46,7 @@ module Scriptures
               # Retorna um hash com os atributos do formulário que correspondem aos campos do modelo Book
               {
                 content: content,
-                reference: reference,
+                reference: reference
               }.compact # .compact é útil para remover chaves com valor nil se os atributos forem opcionais
             end
         end

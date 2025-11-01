@@ -4,8 +4,8 @@ module Scriptures
         class Verse < ApplicationRecord
           self.table_name = "verses"
 
-          # Add your domain invariants here
-          # validates :name, presence: true
+          validates :content, presence: true
+          validates :reference, presence: true
         end
     end
   end

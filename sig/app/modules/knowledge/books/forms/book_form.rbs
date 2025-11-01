@@ -5,7 +5,6 @@ module Knowledge
         Book: Class[Models::Book]
 
         attr_reader book: Models::Book
-        attr_reader record: untyped
 
         def save: -> bool
 

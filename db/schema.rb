@@ -24,7 +24,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_032402) do
     t.index ["title"], name: "index_books_on_title"
   end
 
-  create_table "scriptures_verses_verses", force: :cascade do |t|
+  create_table "verses", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
     t.string "reference"

@@ -1,0 +1,13 @@
+module Scriptures
+  module Verses
+    module Services
+      class VerseCreatorService
+        VerseForm: Class[Forms::VerseForm]
+
+        @params: untyped
+
+        def call: -> (Models::Verse | Forms::VerseForm)
+      end
+    end
+  end
+end
