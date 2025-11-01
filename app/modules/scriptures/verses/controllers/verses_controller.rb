@@ -1,11 +1,10 @@
 module Scriptures
   module Verses
-    module Controllers
-        class VersesController < ApplicationController
-        # Shorthand definition
-        Verse = Scriptures::Verses::Models::Verse
-        VerseForm = Scriptures::Verses::Forms::VerseForm
-        VerseCreatorService = Scriptures::Verses::Services::VerseCreatorService
+    class VersesController < ApplicationController
+      # Shorthand definition
+      Verse = Scriptures::Verses::Verse
+      VerseForm = Scriptures::Verses::VerseForm
+      VerseCreatorService = Scriptures::Verses::VerseCreatorService
 
           def index
             @verses = Verse.all
@@ -14,7 +13,7 @@ module Scriptures
 
           def show
             @verse = Verse.find(params[:id])
-            render json: verse
+            render json: @verse
           end
 
           def create
@@ -53,4 +52,3 @@ module Scriptures
         end
     end
   end
-end

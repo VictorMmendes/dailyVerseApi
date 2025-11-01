@@ -37,6 +37,10 @@ module ModScaffold
       template 'controller.rb.tt', module_controller_path
     end
 
+    def create_command
+      template 'command.rb.tt', module_command_path
+    end
+
     def create_routes_file
       routes_path = File.join('app/modules', @context, @slice, 'config', 'routes.rb')
       unless File.exist?(routes_path)
@@ -46,12 +50,12 @@ module ModScaffold
 
     # --- NOVO MÉTODO PARA CRIAR A MIGRAÇÃO ---
     def create_migration
-      # Constrói o nome da tabela completo (ex: "scriptures_verses_verses")
-      full_table_name = "#{@context}_#{@slice}_#{@resource_name.pluralize}"
+      # Usamos o nome de tabela padrão do Rails (plural do recurso) para evitar acoplamento no nome da tabela
+      table_name = @resource_name.pluralize
 
       # Invoca o gerador de migração do ActiveRecord
-      # Ele precisa do nome da migração (ex: create_scriptures_verses_verses) e dos atributos
-      invoke 'active_record:migration', ["create_#{full_table_name}", options[:attributes]],
+      # Ex.: create_books title:string published_on:date
+      invoke 'active_record:migration', ["create_#{table_name}", options[:attributes]],
              { pretend: options[:pretend] }
     end
     # --- FIM DO NOVO MÉTODO ---
@@ -62,6 +66,7 @@ module ModScaffold
       template 'model.rbs.tt', sig_model_path
       template 'form.rbs.tt', sig_form_path
       template 'controller.rbs.tt', sig_controller_path
+      template 'command.rbs.tt', sig_command_path
     end
 
     private
@@ -110,6 +115,14 @@ module ModScaffold
 
     def sig_controller_path
       File.join(sig_root, 'controllers', "#{file_name.pluralize}_controller.rbs")
+    end
+
+    def module_command_path
+      File.join(module_base, 'commands', "create_#{@resource_name}.rb")
+    end
+
+    def sig_command_path
+      File.join(sig_root, 'commands', "create_#{@resource_name}.rbs")
     end
 
     # Expose for templates

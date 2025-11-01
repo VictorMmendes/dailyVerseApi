@@ -1,11 +1,10 @@
 module Knowledge
   module Books
-    module Controllers
-      class BooksController < ApplicationController
-        # shorthands
-        Book = Knowledge::Books::Models::Book
-        BookForm = Knowledge::Books::Forms::BookForm
-        BookCreatorService = Knowledge::Books::Services::BookCreatorService
+    class BooksController < ApplicationController
+      # shorthands
+      Book = Knowledge::Books::Book
+      BookForm = Knowledge::Books::BookForm
+      BookCreatorService = Knowledge::Books::BookCreatorService
 
         def index
           @books = Book.all
@@ -54,4 +53,3 @@ module Knowledge
       end
     end
   end
-end

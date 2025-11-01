@@ -1,9 +1,11 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    module Models
-        class <%= @resource_class %> < ::ApplicationRecord
-          def self.table_name: -> String
-        end
+    class <%= @resource_class %> < ::ApplicationRecord
+      def self.table_name: -> String
+<% attributes_kv.each do |name, type| -%>
+      def <%= name %>: -> <%= rbs_type_for(type) %>?
+      def <%= name %>=: (<%= rbs_type_for(type) %>) -> <%= rbs_type_for(type) %>
+<% end -%>
     end
   end
 end

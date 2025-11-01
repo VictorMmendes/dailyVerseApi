@@ -1,0 +1,14 @@
+module <%= @class_context %>
+  module <%= @class_slice %>
+    class <%= file_name.pluralize.camelize %>Controller < ::ApplicationController
+      def index: -> void
+      def show: -> void
+      def create: -> void
+      def update: -> void
+      def destroy: -> void
+
+      private
+      def permitted_params: -> ActionController::Parameters
+    end
+  end
+end

@@ -1,13 +1,8 @@
 module Scriptures
   module Verses
-    module Services
-      class VerseCreatorService
-        VerseForm: Class[Forms::VerseForm]
-
-        @params: untyped
-
-        def call: -> (Models::Verse | Forms::VerseForm)
-      end
+    class VerseCreatorService
+      def initialize: (untyped) -> void
+      def call: -> (Scriptures::Verses::Verse | Scriptures::Verses::VerseForm)
     end
   end
 end

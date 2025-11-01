@@ -1,9 +1,10 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    module Forms
-        class <%= @resource_class %>Form
-          def save: -> bool
-        end
+    class <%= @resource_class %>Form
+      def save: -> bool
+      def update: (untyped) -> bool
+      private
+      def attributes_for_model: -> Hash[Symbol, untyped]
     end
   end
 end

@@ -1,0 +1,24 @@
+module <%= @class_context %>
+  module <%= @class_slice %>
+    class Create<%= @resource_class %>
+      <%= @resource_class %>Form = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>Form
+
+      def initialize(params)
+        @params = params
+      end
+
+      def call
+        form = <%= @resource_class %>Form.new(@params)
+        if form.save
+          form.record
+        else
+          form
+        end
+      end
+
+      private
+
+      @params: untyped
+    end
+  end
+end

@@ -1,0 +1,8 @@
+module <%= @class_context %>
+  module <%= @class_slice %>
+    class Create<%= @resource_class %>
+      def initialize: (untyped) -> void
+      def call: -> (<%= @class_context %>::<%= @class_slice %>::<%= @resource_class %> | <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>Form)
+    end
+  end
+end

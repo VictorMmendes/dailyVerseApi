@@ -1,54 +1,52 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    module Forms
-        class <%= @resource_class %>Form
-        # Shorthands definition
-        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::Models::<%= @resource_class %>
+    class <%= @resource_class %>Form
+      # Shorthands definition
+      <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>
 
-          include ActiveModel::Model
-          include ActiveModel::Attributes
+      include ActiveModel::Model
+      include ActiveModel::Attributes
 
-    <% attributes_kv.each do |name, type| -%>
-          attribute :<%= name %>, :<%= type %>
-    <% end -%>
+<% attributes_kv.each do |name, type| -%>
+      attribute :<%= name %>, :<%= type %>
+<% end -%>
 
-          attr_reader :record
+      attr_reader :record
 
-          # Add validations here
-          # validates :name, presence: true
+      # Add validations here
+      # validates :name, presence: true
 
-          def save
-            return false unless valid?
-            @record = <%= @resource_class %>.new(attributes_for_model)
-            if @record.save
-              true
-            else
-              @record.errors.each { |error| errors.add(error.attribute, error.message) }
-              false
-            end
-          end
-
-            def update(record)
-              return false unless valid?
-              if record.update(attributes_for_model)
-                @record = record
-                true
-              else
-                record.errors.each { |error| errors.add(error.attribute, error.message) }
-                false
-              end
-            end
-
-          private
-
-          def attributes_for_model
-            {
-    <% attributes_kv.each_with_index do |(name, _type), idx| -%>
-              <%= name %>: <%= name %><%= idx < attributes_kv.size - 1 ? "," : "" %>
-    <% end -%>
-            }
-          end
+      def save
+        return false unless valid?
+        @record = <%= @resource_class %>.new(attributes_for_model)
+        if @record.save
+          true
+        else
+          @record.errors.each { |error| errors.add(error.attribute, error.message) }
+          false
         end
+      end
+
+      def update(record)
+        return false unless valid?
+        if record.update(attributes_for_model)
+          @record = record
+          true
+        else
+          record.errors.each { |error| errors.add(error.attribute, error.message) }
+          false
+        end
+      end
+
+      private
+
+      def attributes_for_model
+        {
+<% attributes_kv.each_with_index do |(name, _type), idx| -%>
+          <%= name %>: <%= name %><%= idx < attributes_kv.size - 1 ? "," : "" %>
+<% end -%>
+        }
+      end
     end
   end
 end

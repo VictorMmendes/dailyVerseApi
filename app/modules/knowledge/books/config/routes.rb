@@ -1,4 +1,3 @@
-# module: "knowledge/books" -> module: "knowledge/books/controllers"
-scope path: "knowledge", module: "knowledge/books/controllers" do
+scope path: "knowledge", module: "knowledge/books" do
   resources :books, only: [:index, :create, :show, :update, :destroy]
 end

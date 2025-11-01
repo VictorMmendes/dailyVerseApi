@@ -1,19 +1,11 @@
 module Knowledge
   module Books
-    module Forms
-      class BookForm
-        Book: Class[Models::Book]
-
-        attr_reader book: Models::Book
-
-        def save: -> bool
-
-        def update: -> void
-
-        private
-
-        def attributes_for_model: -> Hash[Symbol, String | Date]
-      end
+    class BookForm
+      attr_reader book: Knowledge::Books::Book
+      def save: -> bool
+      def update: (untyped) -> bool
+      private
+      def attributes_for_model: -> Hash[Symbol, untyped]
     end
   end
 end

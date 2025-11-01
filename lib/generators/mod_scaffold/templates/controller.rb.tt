@@ -1,59 +1,57 @@
 module <%= @class_context %>
   module <%= @class_slice %>
-    module Controllers
-        class <%= file_name.pluralize.camelize %>Controller < ApplicationController
-        # Shorthands definition
-        <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::Models::<%= @resource_class %>
-        <%= @resource_class %>Form = <%= @class_context %>::<%= @class_slice %>::Forms::<%= @resource_class %>Form
+    class <%= file_name.pluralize.camelize %>Controller < ApplicationController
+      # Shorthands definition
+      <%= @resource_class %> = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>
+      <%= @resource_class %>Form = <%= @class_context %>::<%= @class_slice %>::<%= @resource_class %>Form
 
-    <% if actions.include?('index') -%>
-          def index
-            records = <%= @resource_class %>.all
-            render json: records
-          end
-    <% end -%>
-    <% if actions.include?('show') -%>
-          def show
-            record = <%= @resource_class %>.find(params[:id])
-            render json: record
-          end
-    <% end -%>
-    <% if actions.include?('create') -%>
-          def create
-            form = <%= @resource_class %>Form.new(permitted_params)
-            if form.save
-              render json: form.record, status: :created
-            else
-              render json: { errors: form.errors }, status: :unprocessable_entity
-            end
-          end
-    <% end -%>
-    <% if actions.include?('update') -%>
-          def update
-            record = <%= @resource_class %>.find(params[:id])
-            form = <%= @resource_class %>Form.new(permitted_params)
-
-            if form.update(record) # Assumindo que seu Form Object terá um método `update`
-              render json: form.record
-            else
-              render json: { errors: form.errors }, status: :unprocessable_entity
-            end
-          end
-    <% end -%>
-    <% if actions.include?('destroy') -%>
-          def destroy
-            record = <%= @resource_class %>.find(params[:id])
-            record.destroy
-            head :no_content
-          end
-    <% end -%>
-
-          private
-
-          def permitted_params
-            params.require(:<%= @resource_name %>).permit(<%= attributes_kv.map { |(n, _)| ':' + n }.join(', ') %>)
-          end
+<% if actions.include?('index') -%>
+      def index
+        records = <%= @resource_class %>.all
+        render json: records
+      end
+<% end -%>
+<% if actions.include?('show') -%>
+      def show
+        record = <%= @resource_class %>.find(params[:id])
+        render json: record
+      end
+<% end -%>
+<% if actions.include?('create') -%>
+      def create
+        form = <%= @resource_class %>Form.new(permitted_params)
+        if form.save
+          render json: form.record, status: :created
+        else
+          render json: { errors: form.errors }, status: :unprocessable_entity
         end
+      end
+<% end -%>
+<% if actions.include?('update') -%>
+      def update
+        record = <%= @resource_class %>.find(params[:id])
+        form = <%= @resource_class %>Form.new(permitted_params)
+
+        if form.update(record) # Assumindo que seu Form Object terá um método `update`
+          render json: form.record
+        else
+          render json: { errors: form.errors }, status: :unprocessable_entity
+        end
+      end
+<% end -%>
+<% if actions.include?('destroy') -%>
+      def destroy
+        record = <%= @resource_class %>.find(params[:id])
+        record.destroy
+        head :no_content
+      end
+<% end -%>
+
+      private
+
+      def permitted_params
+        params.require(:<%= @resource_name %>).permit(<%= attributes_kv.map { |(n, _)| ':' + n }.join(', ') %>)
+      end
     end
   end
 end

@@ -1,4 +1,3 @@
-# module: "<%= @context %>/<%= @slice %>" -> module: "<%= @context %>/<%= @slice %>/controllers"
-scope path: "<%= @context %>", module: "<%= @context %>/<%= @slice %>/controllers" do
+scope path: "<%= @context %>", module: "<%= @context %>/<%= @slice %>" do
   resources :<%= file_name.pluralize %>, only: [<%= actions.map { |a| ":#{a}" }.join(', ') %>]
 end
