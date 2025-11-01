@@ -40,9 +40,8 @@ module Scriptures
             def attributes_for_model
               # Retorna um hash com os atributos do formulário que correspondem aos campos do modelo Book
               {
-                author: author,
-                publication_date: publication_date,
-                title: title
+                content: content,
+                reference: reference,
               }.compact # .compact é útil para remover chaves com valor nil se os atributos forem opcionais
             end
         end

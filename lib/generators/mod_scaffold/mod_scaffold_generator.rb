@@ -44,6 +44,18 @@ module ModScaffold
       end
     end
 
+    # --- NOVO MÉTODO PARA CRIAR A MIGRAÇÃO ---
+    def create_migration
+      # Constrói o nome da tabela completo (ex: "scriptures_verses_verses")
+      full_table_name = "#{@context}_#{@slice}_#{@resource_name.pluralize}"
+
+      # Invoca o gerador de migração do ActiveRecord
+      # Ele precisa do nome da migração (ex: create_scriptures_verses_verses) e dos atributos
+      invoke 'active_record:migration', ["create_#{full_table_name}", options[:attributes]],
+             { pretend: options[:pretend] }
+    end
+    # --- FIM DO NOVO MÉTODO ---
+
     def create_rbs
       return unless options[:rbs]
 
@@ -54,6 +66,20 @@ module ModScaffold
 
     private
 
+    # Helper para mapear tipos de atributos para tipos RBS (reutilizado do nosso papo anterior)
+    def rbs_type_for(type)
+      case type.to_s
+      when 'string', 'text' then 'String'
+      when 'integer', 'bigint' then 'Integer'
+      when 'float' then 'Float'
+      when 'decimal' then 'BigDecimal'
+      when 'boolean' then 'bool'
+      when 'date' then 'Date'
+      when 'datetime', 'timestamp' then 'Time'
+      else 'untyped'
+      end
+    end
+    # ... rest of the file ...
     def module_base
       File.join('app/modules', @context, @slice)
     end
