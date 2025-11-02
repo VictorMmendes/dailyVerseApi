@@ -1,9 +1,0 @@
-module Scriptures
-  module Verses
-    module Models
-        class Verse < ::ApplicationRecord
-          def self.table_name: -> String
-        end
-    end
-  end
-end

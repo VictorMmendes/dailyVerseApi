@@ -1,8 +1,0 @@
-module Knowledge
-  module Books
-    class BookCreatorService
-      def initialize: (untyped) -> void
-      def call: -> (Knowledge::Books::Book | Knowledge::Books::BookForm)
-    end
-  end
-end

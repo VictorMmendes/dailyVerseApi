@@ -1,8 +1,0 @@
-module Scriptures
-  module Verses
-    class VerseCreatorService
-      def initialize: (untyped) -> void
-      def call: -> (Scriptures::Verses::Verse | Scriptures::Verses::VerseForm)
-    end
-  end
-end
