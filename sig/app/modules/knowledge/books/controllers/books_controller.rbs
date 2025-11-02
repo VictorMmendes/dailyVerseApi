@@ -1,25 +1,22 @@
 module Knowledge
   module Books
-    module Controllers
-      class BooksController
-        # Shorthands for class singletons
-        Book: Class[Models::Book]
-        BookForm: Class[Forms::BookForm]
-        BookCreatorService: Class[Knowledge::Books::Services::BookCreatorService]
+    class BooksController < ::ApplicationController
+      Book: Class[Books::Book]
+      CreateBook: Class[Books::CreateBook]
 
-        @books: Array[Models::Book]
-        @book: Models::Book
+      def index: -> void
 
-        def index: -> void
-        def show: -> void
-        def create: -> void
-        def update: -> void
-        def destroy: -> void
+      def show: -> void
 
-        private
+      def create: -> void
 
-        def book_params: -> untyped
-      end
+      def update: -> void
+
+      def destroy: -> void
+
+      private
+
+      def permitted_params: -> ActionController::Parameters
     end
   end
 end

@@ -1,52 +1,55 @@
 module Knowledge
   module Books
     class BookForm
-      # shorthands
-      Book = Knowledge::Books::Book
-
+      # Inclui ActiveModel::Model para obter funcionalidades de:
+      # - Inicialização (initialize(params))
+      # - Validação (valid?, errors)
+      # - Atributos (attr_accessor)
       include ActiveModel::Model
+
+      # Inclui ActiveModel::Attributes para definir os tipos (opcional, mas recomendado)
       include ActiveModel::Attributes
 
+      # ------------------------------------------------------------------
+      # 1. ATRIBUTOS (O que esperamos receber e validar)
+      # ------------------------------------------------------------------
+
+      # Use attr_accessor para definir os campos que o form aceitará.
+      attr_accessor :title, :author, :publication_date
+
+      # Opcional: Para definir o tipo explicitamente (útil para RBS)
       attribute :title, :string
       attribute :author, :string
       attribute :publication_date, :date
 
-      validates :title, presence: true
+      # ------------------------------------------------------------------
+      # 2. VALIDAÇÕES (Regras de validação do input)
+      # ------------------------------------------------------------------
+
+      # Use ActiveModel::Validations (incluído via ActiveModel::Model)
+      validates :title, presence: true, length: { maximum: 255 }
       validates :author, presence: true
+      validates :publication_date, presence: true
 
-      attr_reader :book
+      # ------------------------------------------------------------------
+      # 3. MÉTODOS DE AJUDA
+      # ------------------------------------------------------------------
 
-      def update(book)
-        return false unless valid?
-        if book.update(title: title, author: author, publication_date: publication_date)
-          @book = book
-          true
-        else
-          book.errors.each { |error| errors.add(error.attribute, error.message) }
-          false
-        end
+      # Método para retornar apenas os atributos que serão passados para o Model
+      # Isso atua como um DTO de saída, garantindo que apenas campos válidos/necessários sejam usados.
+      def attributes
+        {
+          title: title,
+          author: author,
+          publication_date: publication_date,
+        }.compact # Remove chaves com valor nil (bom para updates parciais)
       end
 
-      def save
-        return false unless valid?
-        @book = Book.new(title: title, author: author, publication_date: publication_date)
-        if @book.save
-          true
-        else
-          @book.errors.each { |error| errors.add(error.attribute, error.message) }
-          false
-        end
-      end
+      # Exemplo de normalização de dados antes da validação ou uso
+      # def title=(value)
+      #   @title = value.to_s.strip
+      # end
 
-      private
-        def attributes_for_model
-          # Retorna um hash com os atributos do formulário que correspondem aos campos do modelo Book
-          {
-            author: author,
-            publication_date: publication_date,
-            title: title
-          }.compact # .compact é útil para remover chaves com valor nil se os atributos forem opcionais
-        end
     end
   end
 end
