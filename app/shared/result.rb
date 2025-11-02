@@ -27,7 +27,7 @@ module Shared
         true
       end
 
-      def failure?
+        def failure?
         false
       end
     end

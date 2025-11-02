@@ -23,9 +23,10 @@ module DailyVerseApi
     config.autoload_paths << modules_root
     config.eager_load_paths << modules_root
 
-    # Adicione estas linhas para incluir 'app/shared' nas paths de autoload
-    config.autoload_paths << Rails.root.join('app/shared')
-    config.eager_load_paths << Rails.root.join('app/shared') # Importante para ambientes de produção
+    # Add the 'app/shared' directory to autoload paths
+    shared_root = Rails.root.join('app', 'shared').to_s
+    config.autoload_paths << shared_root
+    config.eager_load_paths << shared_root
 
     # Generators configuration: API-only, no assets/helpers; use custom scaffold
     config.generators do |g|
