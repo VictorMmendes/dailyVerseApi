@@ -3,8 +3,8 @@ module Knowledge
     class BooksController < ApplicationController
       # Shorthand definition
       Book = Knowledge::Books::Book
-      CreateBook = Knowledge::Books::Commands::CreateBook
-      UpdateBook = Knowledge::Books::Commands::UpdateBook
+      CreateBook = Knowledge::Books::Features::Create::Commands::CreateBook
+      UpdateBook = Knowledge::Books::Features::Update::Commands::UpdateBook
 
       def index
         records = Book.all
