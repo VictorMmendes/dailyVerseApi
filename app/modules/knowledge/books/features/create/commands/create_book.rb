@@ -3,45 +3,7 @@ module Knowledge
     module Features
       module Create
         module Commands
-          class CreateBookCommand
-            # --------------------------------------------------------------------
-            # 1. Classes de Resultado Aninhadas (Padrão Result Object)
-            #    (Essas classes devem ser definidas no nível mais alto ou serem extraídas
-            #     para um módulo Shared/Result para evitar duplicação em cada Command)
-            # --------------------------------------------------------------------
-
-            class Success
-              attr_reader :value
-
-              def initialize(value)
-                @value = value
-              end
-
-              def success?
-                true
-              end
-
-              def failure?
-                false
-              end
-            end
-
-            class Failure
-              attr_reader :errors
-
-              def initialize(errors)
-                @errors = errors
-              end
-
-              def success?
-                false
-              end
-
-              def failure?
-                true
-              end
-            end
-
+          class CreateBook
             # --------------------------------------------------------------------
             # 2. Referências de Classes (Mapeamento explícito de dependências)
             # --------------------------------------------------------------------
@@ -67,19 +29,19 @@ module Knowledge
 
             def call
               # PASSO 1: Validação do Input (Form Object)
-              return Failure.new(@form.errors) unless @form.valid?
+              return ::Shared::Result::Failure.new(@form.errors) unless @form.valid?
 
               # PASSO 2: Execução da Lógica de Negócio e Persistência
               # Usa os atributos validados do Form para criar o registro
               book = Book.create!(@form.attributes)
 
               # PASSO 3: Retorno de Sucesso
-              Success.new(book)
+              ::Shared::Result::Success.new(book)
 
             rescue => e
               # Captura e trata exceções inesperadas
               # Logar o erro aqui seria uma boa prática
-              Failure.new({ base: "Erro na criação: #{e.message}" })
+              ::Shared::Result::Failure.new({ base: "Erro na criação: #{e.message}" })
             end
           end
         end

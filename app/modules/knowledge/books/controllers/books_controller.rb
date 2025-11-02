@@ -2,52 +2,42 @@ module Knowledge
   module Books
     class BooksController < ApplicationController
       # Shorthand definition
-      Book = Knowledge::Books::Book
-      CreateBookCommand = Knowledge::Books::Features::Create::Commands::CreateBookCommand
-      UpdateBookCommand = Knowledge::Books::Features::Update::Commands::UpdateBookCommand
+      Book = Knowledge::Books::Book # Ainda necessário se você referenciar o modelo diretamente em algum lugar
+      CreateBook = Knowledge::Books::Features::Create::Commands::CreateBook
+      UpdateBook = Knowledge::Books::Features::Update::Commands::UpdateBook
+      # DestroyBook = Knowledge::Books::Features::Destroy::Commands::DestroyBook
+      ListBooks = Knowledge::Books::Queries::ListBooks
+      FindBook = Knowledge::Books::Queries::FindBook
 
       def index
-        records = Book.all
-        render json: records
+        result = ListBooks.call(params)
+        render_operation_result(result) # success_status default é :ok
       end
 
       def show
-        record = Book.find(params[:id])
-        render json: record
+        result = FindBook.call(params[:id])
+        # Para show, se não encontrar, o status deve ser :not_found
+        render_operation_result(result, failure_status: :not_found)
       end
 
       # --- Ações de Escrita (Commands) ---
       def create
-        # 1. Controller chama o Command, passando os parâmetros permitidos.
-        # O Command é responsável por criar o Form, validar e salvar.
-        result = CreateBookCommand.call(permitted_params)
-
-        if result.success?
-          # O Command retorna o objeto criado
-          render json: result.value, status: :created
-        else
-          # O Command retorna os erros de validação
-          render json: { errors: result.errors }, status: :unprocessable_entity
-        end
+        result = CreateBook.call(permitted_params)
+        render_operation_result(result, success_status: :created)
       end
 
       def update
-        # 2. Controller chama o Command, passando o registro e os parâmetros
-        result = UpdateBookCommand.call(params[:id], permitted_params)
-
-        if result.success?
-          render json: result.value
-        else
-          render json: { errors: result.errors }, status: :unprocessable_entity
-        end
+        result = UpdateBook.call(params[:id], permitted_params)
+        render_operation_result(result) # success_status default é :ok
       end
 
       def destroy
-        # A lógica de destroy é simples e pode permanecer aqui,
-        # ou ser movida para um Command se houver regras de negócio complexas.
-        record = Book.find(params[:id])
-        record.destroy
-        head :no_content
+        # result = DestroyBook.call(params[:id])
+        # if result.success?
+        #   head :no_content # Destroy com sucesso normalmente retorna 204 No Content
+        # else
+        #   render_operation_result(result) # Em caso de falha, usar o helper padrão
+        # end
       end
 
       private
