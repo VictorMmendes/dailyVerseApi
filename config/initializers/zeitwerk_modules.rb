@@ -6,6 +6,6 @@ Rails.autoloaders.main.collapse(
     # se a intenção é que se tornem módulos explícitos (ex: Knowledge::Books::Queries).
     explicit_module_layers = %w[forms commands queries services serializers]
 
-    explicit_module_layers.include?(layer_type) # <--- Condição simplificada!
+    explicit_module_layers.include?(layer_type)
   end
 )

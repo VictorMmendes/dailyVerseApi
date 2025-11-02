@@ -14,16 +14,14 @@ module Knowledge
 
       def index
         result = ListBooks.call(params)
-        render_operation_result(result) # success_status default é :ok
+        render_operation_result(result)
       end
 
       def show
         result = FindBook.call(params[:id])
-        # Para show, se não encontrar, o status deve ser :not_found
         render_operation_result(result, failure_status: :not_found)
       end
 
-      # --- Ações de Escrita (Commands) ---
       def create
         result = CreateBook.call(permitted_params)
         render_operation_result(result, success_status: :created)
@@ -31,12 +29,12 @@ module Knowledge
 
       def update
         result = UpdateBook.call(params[:id], permitted_params)
-        render_operation_result(result) # success_status default é :ok
+        render_operation_result(result)
       end
 
       def destroy
         result = DestroyBook.call(params[:id])
-        render_operation_result(result) # success_status default é :ok
+        render_operation_result(result)
       end
 
       private
