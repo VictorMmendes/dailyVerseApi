@@ -1,6 +1,6 @@
 module Knowledge
   module Books
-    module Feature
+    module Features
       module Create
         module Forms
           class CreateBookForm

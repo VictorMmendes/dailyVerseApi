@@ -49,7 +49,7 @@ module Knowledge
             # O Command precisa de referências explícitas às classes que ele usa,
             # sem assumir que estão no mesmo namespace (quebrado pela profundidade).
             Book = Knowledge::Books::Book
-            BookForm = Knowledge::Books::Forms::CreateBookForm # Ajustamos o nome do Form
+            BookForm = Knowledge::Books::Features::Create::Forms::CreateBookForm # Ajustamos o nome do Form
 
             # --------------------------------------------------------------------
             # 3. Métodos do Command (Lógica de Orquestração)

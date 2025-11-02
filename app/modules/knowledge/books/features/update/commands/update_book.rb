@@ -48,7 +48,7 @@ module Knowledge
             def initialize(book, params)
               @book = book
               # O Form é inicializado com os novos parâmetros para validação
-              @form = Knowledge::Books::Forms::UpdateBookForm.new(params)
+              @form = Knowledge::Books::Features::Update::Forms::UpdateBookForm.new(params)
             end
 
             # Executa a lógica de atualização

@@ -1,8 +1,8 @@
 module Knowledge
   module Books
-    module Forms
-      module Features
-        module Update
+    module Features
+      module Update
+        module Forms
           class UpdateBookForm
             # Inclui ActiveModel::Model para obter funcionalidades de:
             # - Inicialização (initialize(params))
