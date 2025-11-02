@@ -3,7 +3,7 @@ module Knowledge
     module Features
       module Update
         module Commands
-          class UpdateBook
+          class UpdateBookCommand
             # Define internal Success and Failure classes to encapsulate command results.
             # This addresses the NameError by providing the missing constants.
             class Success
@@ -38,17 +38,20 @@ module Knowledge
               end
             end
 
+            Book = Knowledge::Books::Book
+            UpdateBookForm = Knowledge::Books::Features::Update::Forms::UpdateBookForm # Ajustamos o nome do Form
+
             # Método de classe para facilitar a chamada no Controller
             # Recebe o registro que será atualizado e os novos parâmetros
-            def self.call(book, params)
-              new(book, params).call
+            def self.call(id, params)
+              new(id, params).call
             end
 
             # Inicializa o Command com o registro a ser atualizado e os dados
-            def initialize(book, params)
-              @book = book
+            def initialize(id, params)
+              @book = Book.find(id)
               # O Form é inicializado com os novos parâmetros para validação
-              @form = Knowledge::Books::Features::Update::Forms::UpdateBookForm.new(params)
+              @form = UpdateBookForm.new(params)
             end
 
             # Executa a lógica de atualização

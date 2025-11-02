@@ -3,7 +3,7 @@ module Knowledge
     module Features
       module Create
         module Commands
-          class CreateBook
+          class CreateBookCommand
             # --------------------------------------------------------------------
             # 1. Classes de Resultado Aninhadas (Padrão Result Object)
             #    (Essas classes devem ser definidas no nível mais alto ou serem extraídas
@@ -49,7 +49,7 @@ module Knowledge
             # O Command precisa de referências explícitas às classes que ele usa,
             # sem assumir que estão no mesmo namespace (quebrado pela profundidade).
             Book = Knowledge::Books::Book
-            BookForm = Knowledge::Books::Features::Create::Forms::CreateBookForm # Ajustamos o nome do Form
+            CreateBookForm = Knowledge::Books::Features::Create::Forms::CreateBookForm # Ajustamos o nome do Form
 
             # --------------------------------------------------------------------
             # 3. Métodos do Command (Lógica de Orquestração)
@@ -62,7 +62,7 @@ module Knowledge
 
             def initialize(params)
               # Instancia o Form Object específico para este Command
-              @form = BookForm.new(params)
+              @form = CreateBookForm.new(params)
             end
 
             def call

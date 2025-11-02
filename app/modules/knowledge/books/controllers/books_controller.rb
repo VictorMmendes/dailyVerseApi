@@ -3,8 +3,8 @@ module Knowledge
     class BooksController < ApplicationController
       # Shorthand definition
       Book = Knowledge::Books::Book
-      CreateBook = Knowledge::Books::Features::Create::Commands::CreateBook
-      UpdateBook = Knowledge::Books::Features::Update::Commands::UpdateBook
+      CreateBookCommand = Knowledge::Books::Features::Create::Commands::CreateBookCommand
+      UpdateBookCommand = Knowledge::Books::Features::Update::Commands::UpdateBookCommand
 
       def index
         records = Book.all
@@ -20,7 +20,7 @@ module Knowledge
       def create
         # 1. Controller chama o Command, passando os parâmetros permitidos.
         # O Command é responsável por criar o Form, validar e salvar.
-        result = CreateBook.call(permitted_params)
+        result = CreateBookCommand.call(permitted_params)
 
         if result.success?
           # O Command retorna o objeto criado
@@ -32,11 +32,8 @@ module Knowledge
       end
 
       def update
-        # 1. Busca do registro (o Command só precisa do ID e dos novos dados)
-        record = Book.find(params[:id])
-
         # 2. Controller chama o Command, passando o registro e os parâmetros
-        result = UpdateBook.call(record, permitted_params)
+        result = UpdateBookCommand.call(params[:id], permitted_params)
 
         if result.success?
           render json: result.value
