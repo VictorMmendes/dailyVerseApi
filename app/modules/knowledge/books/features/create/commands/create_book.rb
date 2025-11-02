@@ -3,6 +3,38 @@ module Knowledge
     module Features
       module Create
         module Commands
+          class Failure
+            attr_reader :errors
+
+            def initialize(errors)
+              @errors = errors
+            end
+
+            def success?
+              false
+            end
+
+            def failure?
+              true
+            end
+          end
+
+          class Success
+            attr_reader :value
+
+            def initialize(value)
+              @value = value
+            end
+
+            def success?
+              true
+            end
+
+            def failure?
+              false
+            end
+          end
+
           class CreateBook
             # --------------------------------------------------------------------
             # 2. Referências de Classes (Mapeamento explícito de dependências)
@@ -29,19 +61,19 @@ module Knowledge
 
             def call
               # PASSO 1: Validação do Input (Form Object)
-              return ::Shared::Result::Failure.new(@form.errors) unless @form.valid?
+              return Failure.new(@form.errors) unless @form.valid?
 
               # PASSO 2: Execução da Lógica de Negócio e Persistência
               # Usa os atributos validados do Form para criar o registro
               book = Book.create!(@form.attributes)
 
               # PASSO 3: Retorno de Sucesso
-              ::Shared::Result::Success.new(book)
+              Success.new(book)
 
             rescue => e
               # Captura e trata exceções inesperadas
               # Logar o erro aqui seria uma boa prática
-              ::Shared::Result::Failure.new({ base: "Erro na criação: #{e.message}" })
+              Failure.new({ base: "Erro na criação: #{e.message}" })
             end
           end
         end

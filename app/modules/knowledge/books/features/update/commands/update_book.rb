@@ -3,6 +3,38 @@ module Knowledge
     module Features
       module Update
         module Commands
+          class Failure
+            attr_reader :errors
+
+            def initialize(errors)
+              @errors = errors
+            end
+
+            def success?
+              false
+            end
+
+            def failure?
+              true
+            end
+          end
+
+          class Success
+            attr_reader :value
+
+            def initialize(value)
+              @value = value
+            end
+
+            def success?
+              true
+            end
+
+            def failure?
+              false
+            end
+          end
+
           class UpdateBook
             Book = Knowledge::Books::Book
             UpdateBookForm = Knowledge::Books::Features::Update::Forms::UpdateBookForm # Ajustamos o nome do Form
@@ -24,20 +56,20 @@ module Knowledge
             def call
               # 1. Checa a validade dos novos dados usando o Form Object
               # O Form Object é responsável por garantir que o input é seguro e válido.
-              return ::Shared::Result::Failure.new(@form.errors) unless @form.valid?
+              return Failure.new(@form.errors) unless @form.valid?
 
               # 2. Executa a atualização no registro de domínio
               # Usamos os atributos validados do Form Object para atualizar o Book
               if @book.update(@form.attributes)
                 # Retorna sucesso e o objeto atualizado
-                ::Shared::Result::Success.new(@book)
+                Success.new(@book)
               else
                 # Retorna erros de validação do Model (ex: restrição do banco de dados)
-                ::Shared::Result::Failure.new(@book.errors)
+                Failure.new(@book.errors)
               end
             rescue => e
               # Captura exceções inesperadas
-              ::Shared::Result::Failure.new({ base: "Erro na atualização: #{e.message}" })
+              Failure.new({ base: "Erro na atualização: #{e.message}" })
             end
           end
         end

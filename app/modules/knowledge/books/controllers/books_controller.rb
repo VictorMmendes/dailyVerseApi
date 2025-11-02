@@ -2,10 +2,13 @@ module Knowledge
   module Books
     class BooksController < ApplicationController
       # Shorthand definition
-      Book = Knowledge::Books::Book # Ainda necessário se você referenciar o modelo diretamente em algum lugar
+      # Models
+      Book = Knowledge::Books::Book
+      # Commands
       CreateBook = Knowledge::Books::Features::Create::Commands::CreateBook
       UpdateBook = Knowledge::Books::Features::Update::Commands::UpdateBook
-      # DestroyBook = Knowledge::Books::Features::Destroy::Commands::DestroyBook
+      DestroyBook = Knowledge::Books::Features::Destroy::Commands::DestroyBook
+      # Queries
       ListBooks = Knowledge::Books::Queries::ListBooks
       FindBook = Knowledge::Books::Queries::FindBook
 
@@ -32,12 +35,8 @@ module Knowledge
       end
 
       def destroy
-        # result = DestroyBook.call(params[:id])
-        # if result.success?
-        #   head :no_content # Destroy com sucesso normalmente retorna 204 No Content
-        # else
-        #   render_operation_result(result) # Em caso de falha, usar o helper padrão
-        # end
+        result = DestroyBook.call(params[:id])
+        render_operation_result(result) # success_status default é :ok
       end
 
       private

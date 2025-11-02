@@ -1,6 +1,38 @@
 module Knowledge
   module Books
     module Queries
+      class Failure
+        attr_reader :errors
+
+        def initialize(errors)
+          @errors = errors
+        end
+
+        def success?
+          false
+        end
+
+        def failure?
+          true
+        end
+      end
+
+      class Success
+        attr_reader :value
+
+        def initialize(value)
+          @value = value
+        end
+
+        def success?
+          true
+        end
+
+        def failure?
+          false
+        end
+      end
+
       class ListBooks
         Book = Knowledge::Books::Book
 
@@ -25,11 +57,11 @@ module Knowledge
             apply_pagination
 
             # Retorna a relação final do Active Record encapsulada em um objeto Success
-            ::Shared::Result::Success.new(@scope)
+            Success.new(@scope)
           rescue => e
             # Captura e trata exceções inesperadas
             # Logar o erro aqui seria uma boa prática
-            ::Shared::Result::Failure.new({ base: "Erro ao listar livros: #{e.message}" })
+            Failure.new({ base: "Erro ao listar livros: #{e.message}" })
           end
         end
 
@@ -37,8 +69,8 @@ module Knowledge
 
         def apply_filters
           # Exemplo de filtro por gênero (usando o parâmetro 'genre' da URL)
-          if @params[:genre].present?
-            @scope = @scope.where(genre: @params[:genre])
+          if @params[:author].present?
+            @scope = @scope.where(author: @params[:author])
           end
 
           # Exemplo de filtro de busca por título
