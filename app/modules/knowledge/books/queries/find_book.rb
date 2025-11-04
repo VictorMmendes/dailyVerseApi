@@ -1,40 +1,10 @@
 module Knowledge
   module Books
     module Queries
-      class Failure
-        attr_reader :errors
-
-        def initialize(errors)
-          @errors = errors
-        end
-
-        def success?
-          false
-        end
-
-        def failure?
-          true
-        end
-      end
-
-      class Success
-        attr_reader :value
-
-        def initialize(value)
-          @value = value
-        end
-
-        def success?
-          true
-        end
-
-        def failure?
-          false
-        end
-      end
-
       class FindBook
         Book = Knowledge::Books::Book
+        Success = Shared::Result::Success
+        Failure = Shared::Result::Failure
 
         def self.call(id)
           new(id).call

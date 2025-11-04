@@ -1,9 +1,26 @@
+# app/modules/shared/result.rb
 module Shared
   module Result
+    class Success
+      attr_reader :value
+
+      def initialize(value = nil)
+        @value = value
+      end
+
+      def success?
+        true
+      end
+
+      def failure?
+        false
+      end
+    end
+
     class Failure
       attr_reader :errors
 
-      def initialize(errors)
+      def initialize(errors = {})
         @errors = errors
       end
 
@@ -13,22 +30,6 @@ module Shared
 
       def failure?
         true
-      end
-    end
-
-    class Success
-      attr_reader :value
-
-      def initialize(value)
-        @value = value
-      end
-
-      def success?
-        true
-      end
-
-        def failure?
-        false
       end
     end
   end

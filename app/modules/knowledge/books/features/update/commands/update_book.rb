@@ -3,40 +3,10 @@ module Knowledge
     module Features
       module Update
         module Commands
-          class Failure
-            attr_reader :errors
-
-            def initialize(errors)
-              @errors = errors
-            end
-
-            def success?
-              false
-            end
-
-            def failure?
-              true
-            end
-          end
-
-          class Success
-            attr_reader :value
-
-            def initialize(value)
-              @value = value
-            end
-
-            def success?
-              true
-            end
-
-            def failure?
-              false
-            end
-          end
-
           class UpdateBook
             Book = Knowledge::Books::Book
+            Success = Shared::Result::Success
+            Failure = Shared::Result::Failure
             UpdateBookForm = Knowledge::Books::Features::Update::Forms::UpdateBookForm
 
             def self.call(id, params)
